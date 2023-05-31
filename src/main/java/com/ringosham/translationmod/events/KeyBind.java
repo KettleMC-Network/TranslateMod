@@ -8,7 +8,7 @@ public class KeyBind {
     static KeyBinding translateKey;
 
     public static void keyInit() {
-        translateKey = new KeyBinding("Translator menu", Keyboard.KEY_Y, "key.categories.multiplayer");
+        translateKey = new KeyBinding("Translator menu", Keyboard.KEY_G, "key.categories.multiplayer");
         ClientRegistry.registerKeyBinding(translateKey);
     }
 }
