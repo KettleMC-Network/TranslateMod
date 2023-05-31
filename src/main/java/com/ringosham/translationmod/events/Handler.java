@@ -38,6 +38,8 @@ public class Handler {
 
     @SubscribeEvent
     public void chatReceived(ClientChatReceivedEvent event) {
+        if (!ConfigManager.INSTANCE.isEnabled())
+            return;
         IChatComponent eventMessage = event.message;
         String message = eventMessage.getUnformattedText().replaceAll("§(.)", "");
         Thread translate = new Translator(message, null, ConfigManager.INSTANCE.getTargetLanguage());
@@ -51,6 +53,7 @@ public class Handler {
         if (!hintShown) {
             hintShown = true;
             ChatUtil.printChatMessage(true, "Press [" + EnumChatFormatting.AQUA + Keyboard.getKeyName(KeyBind.translateKey.getKeyCode()) + EnumChatFormatting.WHITE + "] for translation settings", EnumChatFormatting.WHITE);
+            ChatUtil.printChatMessage(true, "The translation features is currently " + (ConfigManager.INSTANCE.isEnabled() ? EnumChatFormatting.GREEN + "enabled" : EnumChatFormatting.RED + "disabled") + EnumChatFormatting.WHITE + ".", EnumChatFormatting.WHITE);
             if (ConfigManager.INSTANCE.getRegexList().size() == 0) {
                 Log.logger.warn("No chat regex in the configurations");
                 ChatUtil.printChatMessage(true, "The mod needs chat regex to function. Check the mod options to add one", EnumChatFormatting.RED);
@@ -63,7 +66,7 @@ public class Handler {
         if (event.world == null)
             return;
         //Scan for signs
-        if (ConfigManager.INSTANCE.isTranslateSign() && event.phase == TickEvent.Phase.END) {
+        if (ConfigManager.INSTANCE.isEnabled() && ConfigManager.INSTANCE.isTranslateSign() && event.phase == TickEvent.Phase.END) {
             processSign(event.world);
         }
     }

@@ -1,13 +1,15 @@
 package com.ringosham.translationmod.gui;
 
 import com.ringosham.translationmod.common.ChatUtil;
+import com.ringosham.translationmod.common.ConfigManager;
 import com.ringosham.translationmod.translate.SelfTranslate;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Keyboard;
 
 public class TranslateGui extends CommonGui {
-    private static final int guiHeight = 125;
+    private static final int guiHeight = 155;
     private static final int guiWidth = 225;
     private GuiTextField headerField;
     private GuiTextField messageField;
@@ -43,10 +45,11 @@ public class TranslateGui extends CommonGui {
         messageField.setEnableBackgroundDrawing(true);
         messageField.setFocused(true);
         Keyboard.enableRepeatEvents(true);
-        this.buttonList.add(new GuiButton(0, getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, "Settings"));
-        this.buttonList.add(new GuiButton(1, getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, "Close"));
-        this.buttonList.add(new GuiButton(2, getLeftMargin(), getYOrigin() + guiHeight - 10 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, "Credits"));
-        this.buttonList.add(new GuiButton(3, getLeftMargin(), getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth, regularButtonHeight, "Retranslate"));
+        this.buttonList.add(new GuiButton(0, getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 35 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, "Settings"));
+        this.buttonList.add(new GuiButton(1, getRightMargin(regularButtonWidth), getYOrigin() + guiHeight - 30 - regularButtonHeight, regularButtonWidth, regularButtonHeight, "Close"));
+        this.buttonList.add(new GuiButton(2, getLeftMargin(), getYOrigin() + guiHeight - 35 - regularButtonHeight * 2, regularButtonWidth, regularButtonHeight, "Credits"));
+        this.buttonList.add(new GuiButton(3, getLeftMargin(), getYOrigin() + guiHeight - 30 - regularButtonHeight, regularButtonWidth, regularButtonHeight, "Retranslate"));
+        this.buttonList.add(new GuiButton(4, getLeftMargin() + regularButtonWidth / 2, getYOrigin() + guiHeight - 5 - regularButtonHeight, regularButtonWidth + 10, regularButtonHeight, buttonText(ConfigManager.INSTANCE.isEnabled())));
     }
 
     @Override
@@ -65,7 +68,17 @@ public class TranslateGui extends CommonGui {
                 break;
             case 3:
                 mc.displayGuiScreen(new RetranslateGui());
+                break;
+            case 4:
+                boolean enabled = !ConfigManager.INSTANCE.isEnabled();
+                button.displayString = buttonText(enabled);
+                ConfigManager.INSTANCE.setEnabled(enabled);
+                break;
         }
+    }
+
+    private String buttonText(boolean enabled) {
+        return (enabled ? EnumChatFormatting.RED + "Disable" : EnumChatFormatting.GREEN + "Enable") + " Translation";
     }
 
     @Override
