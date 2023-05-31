@@ -126,7 +126,7 @@ public class ConfigManager {
         googleKey = config.getString("googleKey", Configuration.CATEGORY_GENERAL, "", "Your Google Cloud translation API key");
         baiduKey = config.getString("baiduKey", Configuration.CATEGORY_GENERAL, "", "Your Baidu translation API key");
         baiduAppId = config.getString("baiduAppId", Configuration.CATEGORY_GENERAL, "", "Your Baidu developer app ID");
-        enabled = config.getBoolean("enabled", Configuration.CATEGORY_GENERAL, true, "Enable or disable the mod");
+        enabled = config.getBoolean("enabled", Configuration.CATEGORY_GENERAL, true, "Enable or disable the chat translation");
 
         //Validations to prevent dumbasses messing with the mod config through notepad
         //Only string validations are needed. Other primitives would be dealt with by forge
@@ -371,7 +371,7 @@ public class ConfigManager {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-        config.get(Configuration.CATEGORY_GENERAL, "enabled", true, "Enable or disable the mod").set(enabled);
+        config.get(Configuration.CATEGORY_GENERAL, "enabled", true, "Enable or disable the chat translation").set(enabled);
         config.save();
     }
 
